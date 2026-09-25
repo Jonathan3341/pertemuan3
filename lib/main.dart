@@ -20,9 +20,14 @@ class Product {
 }
 
 // APP
-class ShoppingApp extends StatelessWidget {
+class ShoppingApp extends StatefulWidget {
   const ShoppingApp({super.key});
 
+  @override
+  State<ShoppingApp> createState() => _ShoppingAppState();
+}
+
+class _ShoppingAppState extends State<ShoppingApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -46,31 +51,29 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  // DATA PRODUK
   final products = [
     Product(
       name: 'Mechanical Keyboard',
       brand: 'Logitech',
-      image:
-      'https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bWVjaGFuaWNhbCUyMGtleWJvYXJkfGVufDB8fDB8fHww',
+      image: 'https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bWVjaGFuaWNhbCUyMGtleWJvYXJkfGVufDB8fDB8fHww',
       price: 850000,
     ),
     Product(
       name: 'Wireless Mouse',
       brand: 'Logitech',
-      image:
-      'https://images.unsplash.com/photo-1618499890638-3a0dd4b278b7?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8d2lyZWxlc3MlMjBtb3VzZSUyMGxvZ2l0ZWNofGVufDB8fDB8fHww',
+      image: 'https://images.unsplash.com/photo-1618499890638-3a0dd4b278b7?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8d2lyZWxlc3MlMjBtb3VzZSUyMGxvZ2l0ZWNofGVufDB8fDB8fHww',
       price: 450000,
     ),
     Product(
       name: 'Gaming Headset',
       brand: 'HyperX',
-      image:
-      'https://images.unsplash.com/photo-1660391532247-4a8ad1060817?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Z2FtaW5nJTIwaGVhZHNldCUyMGh5cGVyeHxlbnwwfHwwfHx8MA%3D%3D',
+      image: 'https://images.unsplash.com/photo-1660391532247-4a8ad1060817?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Z2FtaW5nJTIwaGVhZHNldCUyMGh5cGVyeHxlbnwwfHwwfHx8MA%3D%3D',
       price: 1200000,
     ),
   ];
 
-  // DATA PRODUK
+  // DATA
   final quantity = [0, 0, 0];
   final likes = [0, 0, 0];
   final isLiked = [false, false, false];
@@ -79,10 +82,7 @@ class _HomePageState extends State<HomePage> {
 
   // FORMAT HARGA
   String rupiah(int price) {
-    return 'Rp ${price.toString().replaceAllMapped(
-      RegExp(r'(\d)(?=(\d{3})+(?!\d))'),
-          (match) => '${match[1]}.',
-    )}';
+    return 'Rp ${price.toString().replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (match) => '${match[1]}.')}';
   }
 
   // TOTAL BARANG
@@ -119,11 +119,7 @@ class _HomePageState extends State<HomePage> {
     final product = products[index];
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          '${product.name} - ${rupiah(product.price)}',
-        ),
-      ),
+      SnackBar(content: Text('${product.name} - ${rupiah(product.price)}')),
     );
   }
 
@@ -149,33 +145,20 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: const Color(0xFF0D47A1),
         foregroundColor: Colors.white,
         elevation: 0,
-
         title: const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               'My Shopping',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             Text(
               'Belanja lebih mudah setiap hari',
-              style: TextStyle(
-                fontSize: 11,
-                color: Colors.white70,
-              ),
+              style: TextStyle(fontSize: 11, color: Colors.white70),
             ),
           ],
         ),
-
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.search),
-          ),
-        ],
+        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.search))],
       ),
 
       // PRODUK
@@ -216,7 +199,6 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                 ),
-
                 ElevatedButton(
                   onPressed: () {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -225,7 +207,7 @@ class _HomePageState extends State<HomePage> {
                           totalItems == 0
                               ? 'Belum ada produk yang dipilih'
                               : 'Checkout $totalItems produk - '
-                              '${rupiah(totalPrice)}',
+                                    '${rupiah(totalPrice)}',
                         ),
                       ),
                     );
@@ -246,37 +228,29 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: 0,
         type: BottomNavigationBarType.fixed,
-
         backgroundColor: Colors.white,
-
-        selectedItemColor: Color(0xFF0D47A1),
+        selectedItemColor: const Color(0xFF0D47A1),
         unselectedItemColor: Colors.grey,
-
         selectedFontSize: 12,
         unselectedFontSize: 12,
-
         showSelectedLabels: true,
         showUnselectedLabels: true,
-
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined),
             activeIcon: Icon(Icons.home),
             label: 'Beranda',
           ),
-
           BottomNavigationBarItem(
             icon: Icon(Icons.grid_view_outlined),
             activeIcon: Icon(Icons.grid_view),
             label: 'Kategori',
           ),
-
           BottomNavigationBarItem(
             icon: Icon(Icons.shopping_cart_outlined),
             activeIcon: Icon(Icons.shopping_cart),
             label: 'Keranjang',
           ),
-
           BottomNavigationBarItem(
             icon: Icon(Icons.person_outline),
             activeIcon: Icon(Icons.person),
@@ -308,16 +282,12 @@ class _HomePageState extends State<HomePage> {
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
-            color: selectedProduct == indeks
-                ? Colors.blue
-                : Colors.transparent,
+            color: selectedProduct == indeks ? Colors.blue : Colors.transparent,
             width: 2,
           ),
         ),
-
         child: Row(
           children: [
-
             // GAMBAR
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
@@ -345,17 +315,12 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   Text(
                     product.name,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
 
                   Text(
                     product.brand,
-                    style: const TextStyle(
-                      color: Colors.grey,
-                      fontSize: 12,
-                    ),
+                    style: const TextStyle(color: Colors.grey, fontSize: 12),
                   ),
 
                   Text(
@@ -377,9 +342,7 @@ class _HomePageState extends State<HomePage> {
                           isLiked[indeks]
                               ? Icons.favorite
                               : Icons.favorite_border,
-                          color: isLiked[indeks]
-                              ? Colors.red
-                              : Colors.grey,
+                          color: isLiked[indeks] ? Colors.red : Colors.grey,
                           size: 19,
                         ),
                       ),
@@ -388,9 +351,7 @@ class _HomePageState extends State<HomePage> {
 
                       Text(
                         '${likes[indeks]}',
-                        style: const TextStyle(
-                          color: Colors.grey,
-                        ),
+                        style: const TextStyle(color: Colors.grey),
                       ),
 
                       const Spacer(),
@@ -399,10 +360,10 @@ class _HomePageState extends State<HomePage> {
                       IconButton(
                         onPressed: quantity[indeks] > 0
                             ? () {
-                          setState(() {
-                            quantity[indeks]--;
-                          });
-                        }
+                                setState(() {
+                                  quantity[indeks]--;
+                                });
+                              }
                             : null,
                         icon: const Icon(Icons.remove),
                         iconSize: 18,
@@ -412,9 +373,7 @@ class _HomePageState extends State<HomePage> {
 
                       Text(
                         '${quantity[indeks]}',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
 
                       // PLUS
@@ -422,7 +381,7 @@ class _HomePageState extends State<HomePage> {
                         onPressed: () {
                           setState(() {
                             quantity[indeks]++;
-    });
+                          });
                         },
                         icon: const Icon(Icons.add),
                         iconSize: 18,
